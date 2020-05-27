@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+    <title>원페이지 쇼핑몰 만들기</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <style>
+        .all {
+            font-family: 'Nanum Pen Script', cursive;
+            font-size: x-large;
+        }
+
+        #bb-box {
+            border: black solid;
+            border-radius: 15px;
+            width: 1000px;
+            height: 1100px;
+            margin: 20px auto;
+        }
+
+        .body-text {
+            width: 900px;
+            margin: 30px;
+            text-align: center;
+        }
+
+        #i-box {
+            border: black solid;
+            border-radius: 15px;
+            width: 700px;
+            height: 350px;
+            margin: 50px auto;
+        }
+
+        .title-1 {
+            margin-left: 20px;
+        }
+
+        .img-box {
+            background-image: url(https://get.pxhere.com/photo/wheel-bicycle-bike-orange-vehicle-basket-california-cycle-sports-equipment-cycling-sacramento-brooks-batavus-bicycle-frame-road-cycling-land-vehicle-cyclo-cross-bicycle-road-bicycle-racing-bicycle-hybrid-bicycle-285791.jpg
+);
+            background-position: center;
+            background-size: cover;
+        }
+
+        .order-box {
+            margin: 90px 400px;
+            background-color: tomato;
+            color: white;
+            height: 60px;
+            width: 200px;
+            border: solid;
+            border-radius: 10px;
+        }
+    </style>
+    <script>
+        function chkPhone(p) {
+            let regExp = /^(01[0123456789]{1})[-][0-9]{3,4}[-][0-9]{4}$/;
+            return regExp.test(p);
+        }
+        function order() {
+            let name = $("#order_name").val();
+            let count = $("#order_count").val();
+            let address = $("#order_ad").val();
+            let phone = $("#order_ph").val();
+            if (name == '') {
+                alert('이름을 입력바랍니다.')
+                $('#order_name').focus();
+                return
+            }
+            else if (count == '') {
+                alert('수량을 입력바랍니다.')
+                $('#order_count').focus();
+                return
+            }
+            else if (address == '') {
+                alert('주소를 입력바랍니다.')
+                $('#order_ad').focus();
+                return
+            }
+            else if (phone == '') {
+                alert('번호를 입력바랍니다.')
+                $('#order_ph').focus();
+                return
+            }
+            else if (!chkPhone(phone)) {
+                alert(' 입력 형식이 틀립니다. ')
+                return
+            }
+            else{
+             alert('주문이 완료되었습니다!');
+             let temp_html2 = `<tr>
+                        <td>${name}</td>
+                        <td>${count}</td>
+                       <td>${address}</td>
+                       <td>${phone}</td>
+                       </tr>`
+            $('#order-list').append(temp_html2);
+              }
+
+
+        }
+        $(document).ready(function () {
+
+            $.ajax({
+                type: "GET", 
+                url: "https://api.manana.kr/exchange/rate.json",
+                data: {},
+                success: function (response) {
+
+                    let rate = response[1]['rate'];
+
+                    $('#exData').text(rate);
+
+                }
+            }
+
+            )
+        }
+        );
+    </script>
+</head>
+
+<body>
+    <div class="big-border line">
+        <div id="bb-box">
+            <div class="img-box" id="i-box">
+            </div>
+            <div>
+                <h1 class="title-1"><span style="color: tomato;">블링블링</span> 주황자전거
+                    &nbsp; <span style="font-size: 30px;">가격: 100,000원/1개</span></h1>
+                <div class="body-text"> 이 상품으로 말할꺼 같으면 용왕도 타보지 못한 자전거로 아주 유명하고 또한 빨간망토의 늑대와 아기 돼지 삼형제의 숨결과 영혼이 고루 녹아 있는
+                    자전거로
+                    이것을 타는 순간 120세까지 살 수
+                    있는다는 이상품으로 말할 것 같으면 용왕이 한 번도 타보지 못한 자전거로...
+                    엄청난 특가 할인으로 판매중 입니다.</div>
+                <div class="exchange">
+                    "달러-원 환율: "
+                    <span id="exData" style="color: blue;">1230.35</span>
+
+                </div>
+
+
+                <h1 class="title-1">주문하기</h1>
+                <div class="c-i-box" style="margin-left: 25px;">
+                    <div style="margin-bottom: 15px;"><span>주문자 성함:</span>
+                        <div style="display:inline-block">
+                            <input type="text" id="order_name"
+                                style="width:250px;height:30px;font-size:20px; margin-left: 82px; text-align:center;">
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 15px;"><label>수량:</label>
+                        <div style="display:inline-block">
+                            <input id="order_count" placeholder="--수량을 선택하세요--" type="number" value="" min="0" max="10"
+                                style="width:250px;height:30px;font-size:20px; margin-left: 130px;">
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 15px;"><label>주소:</label>
+                        <div style="display:inline-block">
+                            <input id="order_ad" type="text"
+                                style="width:250px;height:30px;font-size:20px; margin-left: 135px;"></div>
+                    </div>
+
+                    <div style="margin-bottom: 10px;"><label>전화번호:</label>
+                        <div style="display:inline-block">
+                            <input id="order_ph" type="text"
+                                style="width:250px;height:30px;font-size:20px; margin-left: 102px;"></div>
+                    </div>
+
+                </div>
+                <div>
+                    <button onclick="order()" type="button" class="order-box"
+                        style="margin-bottom: 10px auto;">주문하기</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    
+    <div>
+        <table class="table1"> 
+            <thead>
+                <tr>
+                    <td scope="col">  이름  </td>
+                    <td scope="col" >  수량  </td>
+                    <td scope="col">  주소  </td>
+                    <td scope="col">  전화번호  </td>
+                </tr>
+            </thead>
+            <tbody id="order_list">
+            
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
